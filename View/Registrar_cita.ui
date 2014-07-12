@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Registrar_CIta_Window</class>
+ <widget class="QMainWindow" name="Registrar_CIta_Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>279</width>
+    <height>357</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Registrar Cita</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="lbl">
+      <property name="text">
+       <string>Ingresar Datos en cada campo:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="widget_2" native="true">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="lbl_1">
+         <property name="text">
+          <string>Rut Paciente   </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="ledit_rutpaciente"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lbl_2">
+         <property name="text">
+          <string>Rut Medico</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="ledit_rutmedico"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lbl_3">
+         <property name="text">
+          <string>Fecha</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="ledit_fecha"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="lbl_4">
+         <property name="text">
+          <string>Sintomas</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="ledit_sintomas"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="lbl_5">
+         <property name="text">
+          <string>Diagnostico</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="ledit_diagnostico"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="lbl_6">
+         <property name="text">
+          <string>Recomendaciones</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="ledit_recomendaciones"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="lbl_7">
+         <property name="text">
+          <string>Receta</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="ledit_receta"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="btn_ingresar">
+         <property name="text">
+          <string>Ingresar</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_cancelar">
+         <property name="text">
+          <string>Cancelar</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
