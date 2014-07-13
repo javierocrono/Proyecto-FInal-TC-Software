@@ -72,8 +72,7 @@ class Paciente(object):
 
 
     def __insert(self):
-        query = "INSERT INTO {0} ".format(self.__tablename__)
-        # La pk está definida como auto increment en el modelo
+        query = "INSERT INTO paciente "
         query += "(rut, nombres, apellidos, ficha_medica) "
         query += "VALUES (?, ?, ?, ?)"
         try:
@@ -90,3 +89,65 @@ class Paciente(object):
         except sqlite3.Error as e:
             print "An error occurred:", e.args[0]
             return None
+
+
+    def __update(self):
+        query = "UPDATE paciente "
+        query += "SET nombres = ?, "
+        query += "apellidos = ?, "
+        query += "ficha_medica = ?, "
+        query += "WHERE rut = ?"
+        try:
+            conn = connect()
+            conn.execute(
+                query, [
+                    self.nombres,
+                    self.apellidos,
+                    self.ficha_medica,
+                    self.rut])
+            conn.commit()
+            conn.close()
+            return True
+        except sqlite3.Error as e:
+            print "An error occurred:", e.args[0]
+            return False
+
+
+    def delete(self):
+        query = "DELETE FROM paciente "
+        query += "WHERE rut = ?"
+        try:
+            conn = connect()
+            conn.execute(query, [self.rut])
+            conn.commit()
+            conn.close()
+            return True
+        except sqlite3.Error as e:
+            print "An error occurred:", e.args[0]
+            return False
+
+
+    @classmethod
+    def all(cls):
+        """
+        Método utlizado para obtener la colección completa de filas
+        en la tabla paciente.
+        Este método al ser de clase no necesita una instancia (objeto)
+        Sólo basta con invocarlo desde la clase
+        """
+        query = "SELECT * FROM paciente"
+        pacientes = list()
+        try:
+            conn = connect()
+            result = conn.execute(query)
+            data = result.fetchall()
+
+            for row in data:
+                pacientes.append(
+                    Paciente(row[0], row[1], row[2], row[3]))
+            return pacientes
+
+        except sqlite3.Error as e:
+            print "An error occurred:", e.args[0]
+            return None
+
