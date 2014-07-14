@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import sqlite3
 
 def connect():
@@ -150,4 +151,32 @@ class Paciente(object):
         except sqlite3.Error as e:
             print "An error occurred:", e.args[0]
             return None
+
+
+class Cita(object):
+    __tablename__ = "cita"
+    fk_paciente_rut = None
+    fk_medico_rut = None
+    fecha = ""
+    sintomas = ""
+    diagnostico = ""
+    recomendaciones = ""
+    receta = ""
+    def __init__(
+        self,
+        fk_paciente_rut = None,
+        fk_medico_rut = None,
+        fecha = "",
+        sintomas = "",
+        diagnostico = "",
+        recomendaciones = "",
+        receta = ""):
+            fk_paciente_rut = fk_paciente_rut
+            fk_medico_rut = fk_medico_rut
+            fecha = fecha
+            sintomas = sintomas
+            diagnostico = diagnostico
+            recomendaciones = recomendaciones
+            receta = receta
+
 
