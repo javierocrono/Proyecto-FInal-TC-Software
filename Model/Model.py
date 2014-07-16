@@ -161,7 +161,7 @@ class medico(object):
         rut=None,
         nombres="",
         apellidos="",
-        especielidad=""):
+        especialidad=""):
 
             self.rut = rut
             self.nombres = nombres
