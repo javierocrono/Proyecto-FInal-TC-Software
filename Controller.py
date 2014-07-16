@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-
-from model import Paciente, Medico, Cita
+import sys
+sys.path.append('Model')
+from Model import Paciente, Medico, Cita
 
 
 def pacientes():

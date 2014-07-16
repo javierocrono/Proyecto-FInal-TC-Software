@@ -129,7 +129,7 @@ class Paciente(object):
     def all(cls):
         """
         Método utlizado para obtener la colección completa de filas
-        en la tabla cita.
+        en la tabla paciente.
         Este método al ser de clase no necesita una instancia (objeto)
         Sólo basta con invocarlo desde la clase
         """
@@ -138,9 +138,6 @@ class Paciente(object):
             conn = connect()
             result = conn.execute(query)
             data = result.fetchall()
-
-            return data
-
         except sqlite3.Error as e:
             print "An error occurred:", e.args[0]
             return None
@@ -167,7 +164,6 @@ class Medico(object):
 
             # Si la pk tiene valor hay que traer el objeto (Fila) de la DB
             if rut is not None:
-                print "rut not none"
                 self.load()
             elif nombres is not None:
                 self.load(nombres=nombres)
@@ -205,7 +201,6 @@ class Medico(object):
         Utiliza un insert o update según Corresponda
         """
         if self.rut is None:
-            print "rut is none"
             self.rut = self.__insert()
         else:
             self.__update()
@@ -266,7 +261,7 @@ class Medico(object):
     def all(cls):
         """
         Método utlizado para obtener la colección completa de filas
-        en la tabla medico.
+        en la tabla paciente.
         Este método al ser de clase no necesita una instancia (objeto)
         Sólo basta con invocarlo desde la clase
         """
@@ -315,12 +310,12 @@ class Cita(object):
             # en las que participo.
             # Del mismo modo si fk_id_pelicula viene con algun valor es porque
             # se busca los actores de esa película.
-            if self.fk_rut_medico is not None:
+            if fk_id_actor is not None:
                 # Buscamos Peliculas
                 self.load()
-            elif self.fk_rut_paciente is not None:
+            elif fk_id_pelicula is not None:
                 # Buscamos Actores
-                self.load(fk_rut_paciente=self.fk_rut_paciente)
+                self.load(fk_id_pelicula=fk_id_pelicula)
 
     def save(self):
         """
@@ -379,7 +374,7 @@ class Cita(object):
             print "An error occurred:", e.args[0]
             return False
 
-    def load(self, fk_rut_medico=None):
+    def load(self, fk_id_pelicula=None):
         """
         Carga una relación especifica.
         Depende de que parametro reciba buscara actor para una pelicula o
@@ -388,15 +383,15 @@ class Cita(object):
         conn = connect()
         query = "SELECT * FROM actor_en_pelicula"
 
-        if self.fk_rut_medico is not None:
-            query += " WHERE fk_rut_medico = ?"
-            condition = self.fk_rut_medico
+        if self.fk_id_actor is not None:
+            query += " WHERE fk_id_actor = ?"
+            condition = self.fk_id_actor
         else:
-            if self.fk_rut_paciente is None:
+            if fk_id_pelicula is None:
                 return
 
-            query += " WHERE fk_rut_paciente = ?"
-            condition = self.fk_rut_paciente
+            query += " WHERE fk_id_pelicula = ?"
+            condition = fk_id_pelicula
 
         result = conn.execute(
             query, [condition])
@@ -405,17 +400,69 @@ class Cita(object):
         conn.close()
 
         if row is not None:
-            self.fk_rut_medico = row[0]
-            self.fk_rut_paciente = row[1]
+            self.fk_id_actor = row[0]
+            self.fk_id_pelicula = row[1]
+            self.personaje = row[2]
+            self.descripcion = row[3]
         else:
             self.nombre = None
             print "No existe el registro"
 
     @classmethod
+    def actoresDeLaPelicula(cls, id_pelicula):
+        """
+        Retorna todas los Primary Key de los actores que participan en una
+        misma pelicula buscada.
+
+        @param id_pelicula:
+            Primary Key de la película a la que le buscamos los actores.
+        @return data:
+            Tabla con los Primary Key de los actores participantes en la
+            película buscada.
+        """
+        query = "SELECT fk_id_actor FROM {}".format(cls.__tablename__)
+        query += " WHERE fk_id_pelicula = {}".format(id_pelicula)
+        try:
+            conn = connect()
+            result = conn.execute(query)
+            data = result.fetchall()
+
+            return data
+
+        except sqlite3.Error as e:
+            #print "An error occurred:", e.args[0]
+            return None
+
+    @classmethod
+    def peliculasDelActor(cls, id_actor):
+        """
+        Retorna todas los Primary Key de las películas en las que participa el
+        un mismo actor.
+
+        @param id_actor:
+            Primary Key del actor al que se le buscan las películas.
+        @return data:
+            Tabla con los Primary Key de las películas en las que participo el
+            actor al que se le buscaban las películas.
+        """
+        query = "SELECT fk_id_pelicula FROM {}".format(cls.__tablename__)
+        query += " WHERE fk_id_actor = {}".format(id_actor)
+        try:
+            conn = connect()
+            result = conn.execute(query)
+            data = result.fetchall()
+
+            return data
+
+        except sqlite3.Error as e:
+            #print "A Ocurrido un Error!:", e.args[0]
+            return None
+
+    @classmethod
     def all(cls):
         """
         Método utlizado para obtener la colección completa de filas
-        en la tabla cita.
+        en la tabla actor_en_pelicula.
         Este método al ser de clase no necesita una instancia (objeto)
         Sólo basta con invocarlo desde la clase
         """
@@ -428,7 +475,7 @@ class Cita(object):
             return data
 
         except sqlite3.Error as e:
-            print "An error occurred:", e.args[0]
+            #print "An error occurred:", e.args[0]
             return None
 
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Registro_Medico.ui'
 #
-# Created: Tue Jul 15 23:15:37 2014
+# Created: Wed Jul 16 03:55:42 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -46,9 +46,9 @@ class Ui_Registrar_Medico_Window(object):
         self.lbl_3 = QtGui.QLabel(self.widget_2)
         self.lbl_3.setObjectName("lbl_3")
         self.gridLayout.addWidget(self.lbl_3, 2, 0, 1, 1)
-        self.ledit_nombre = QtGui.QLineEdit(self.widget_2)
-        self.ledit_nombre.setObjectName("ledit_nombre")
-        self.gridLayout.addWidget(self.ledit_nombre, 1, 1, 1, 1)
+        self.ledit_nombres = QtGui.QLineEdit(self.widget_2)
+        self.ledit_nombres.setObjectName("ledit_nombres")
+        self.gridLayout.addWidget(self.ledit_nombres, 1, 1, 1, 1)
         self.verticalLayout.addWidget(self.widget_2)
         self.widget = QtGui.QWidget(self.centralwidget)
         self.widget.setObjectName("widget")
@@ -73,7 +73,7 @@ class Ui_Registrar_Medico_Window(object):
     def retranslateUi(self, Registrar_Medico_Window):
         Registrar_Medico_Window.setWindowTitle(QtGui.QApplication.translate("Registrar_Medico_Window", "Registrar Medico", None, QtGui.QApplication.UnicodeUTF8))
         self.lbl.setText(QtGui.QApplication.translate("Registrar_Medico_Window", "Ingresar Datos en cada campo:", None, QtGui.QApplication.UnicodeUTF8))
-        self.lbl_2.setText(QtGui.QApplication.translate("Registrar_Medico_Window", "Nombre", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_2.setText(QtGui.QApplication.translate("Registrar_Medico_Window", "Nombres", None, QtGui.QApplication.UnicodeUTF8))
         self.lbl_4.setText(QtGui.QApplication.translate("Registrar_Medico_Window", "Especialidad", None, QtGui.QApplication.UnicodeUTF8))
         self.lbl_1.setText(QtGui.QApplication.translate("Registrar_Medico_Window", "Rut      ", None, QtGui.QApplication.UnicodeUTF8))
         self.lbl_3.setText(QtGui.QApplication.translate("Registrar_Medico_Window", "Apellidos", None, QtGui.QApplication.UnicodeUTF8))

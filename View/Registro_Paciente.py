@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Registro_Paciente.ui'
 #
-# Created: Sat Jul 12 16:40:13 2014
+# Created: Wed Jul 16 04:35:25 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,12 +34,12 @@ class Ui_Registro_Paciente_Window(object):
         self.ledit_rut = QtGui.QLineEdit(self.widget_2)
         self.ledit_rut.setObjectName("ledit_rut")
         self.gridLayout.addWidget(self.ledit_rut, 0, 1, 1, 1)
-        self.ledit_nombre = QtGui.QLineEdit(self.widget_2)
-        self.ledit_nombre.setObjectName("ledit_nombre")
-        self.gridLayout.addWidget(self.ledit_nombre, 1, 1, 1, 1)
-        self.ledit_especialidad = QtGui.QLineEdit(self.widget_2)
-        self.ledit_especialidad.setObjectName("ledit_especialidad")
-        self.gridLayout.addWidget(self.ledit_especialidad, 3, 1, 1, 1)
+        self.ledit_nombres = QtGui.QLineEdit(self.widget_2)
+        self.ledit_nombres.setObjectName("ledit_nombres")
+        self.gridLayout.addWidget(self.ledit_nombres, 1, 1, 1, 1)
+        self.ledit_ficha_medica = QtGui.QLineEdit(self.widget_2)
+        self.ledit_ficha_medica.setObjectName("ledit_ficha_medica")
+        self.gridLayout.addWidget(self.ledit_ficha_medica, 3, 1, 1, 1)
         self.lbl_4 = QtGui.QLabel(self.widget_2)
         self.lbl_4.setObjectName("lbl_4")
         self.gridLayout.addWidget(self.lbl_4, 3, 0, 1, 1)

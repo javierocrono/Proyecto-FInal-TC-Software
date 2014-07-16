@@ -3,12 +3,11 @@
 
 import sys
 sys.path.append('View')
-#sys.path.append('Controller')
 from PySide import QtGui, QtCore
 from PySide.QtGui import *
 from MedicosForm import Ui_MedicosForm
 import RegisMedico
-#import Controller
+import Controller
 
 """
 Inicia la aplicacion de forma clara
@@ -25,6 +24,7 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
         self.ui.btn_editar.clicked.connect(self.editar)
         self.main_layout = QtGui.QVBoxLayout(self)
         self.renderizaTabla()
+        self.load()
         self.centrar()
         self.show()
 
@@ -50,13 +50,16 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
         self.main_layout.addWidget(self.table)
 
     def load(self):
-            # metodo para cargar la grilla con los productos segun filtro de marca
-            medicos = Controller.Medicos()
+            # metodo para cargar la grilla con los medicos
+            medicos = Controller.medicos()
             self.model = QtGui.QStandardItemModel(len(medicos), 4)
             self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem(u"Rut"))
-            self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem(u"Nombres"))
-            self.model.setHorizontalHeaderItem(2, QtGui.QStandardItem(u"Apellidos"))
-            self.model.setHorizontalHeaderItem(3, QtGui.QStandardItem(u"Especialidad"))
+            self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem
+                                               (u"Nombres"))
+            self.model.setHorizontalHeaderItem(2, QtGui.QStandardItem
+                                               (u"Apellidos"))
+            self.model.setHorizontalHeaderItem(3, QtGui.QStandardItem
+                                               (u"Especialidad"))
             r = 0
             for row in medicos:
                 index = self.model.index(r, 0, QtCore.QModelIndex())
