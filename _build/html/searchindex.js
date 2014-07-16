@@ -1,0 +1,1 @@
+Search.setIndex({envversion:42,terms:{index:0,search:0,python:0,modul:0,content:0,introduccion:0,pysid:0,design:0,requerimiento:0,page:0},objtypes:{},objnames:{},filenames:["index"],titles:["Welcome to Programa Administrador De Pacientes&#8217;s documentation!"],objects:{},titleterms:{welcom:0,indic:0,administrador:0,programa:0,tabl:0,document:0,pacient:0}})
