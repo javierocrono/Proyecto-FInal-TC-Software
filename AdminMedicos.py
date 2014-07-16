@@ -92,6 +92,7 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
                                                (u"N Horas Medicas"))
             r = 0
             for row in medicos:
+                fk_rut_medico = row['rut']
                 index = self.model.index(r, 0, QtCore.QModelIndex())
                 self.model.setData(index, row['Rut'])
                 index = self.model.index(r, 1, QtCore.QModelIndex())
@@ -101,7 +102,7 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
                 index = self.model.index(r, 3, QtCore.QModelIndex())
                 self.model.setData(index, row['Especialidad'])
                 index = self.model.index(r, 4, QtCore.QModelIndex())
-                self.model.setData(index, Controller.obtenerNCitas(row['Rut']))
+                self.model.setData(index, Controller.obtenerNCitas(fk_rut_medico))
                 r = r + 1
             self.table.setModel(self.model)
 

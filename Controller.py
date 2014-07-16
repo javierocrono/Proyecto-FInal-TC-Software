@@ -119,17 +119,31 @@ def editarCita(fk_paciente_rutviejo, fk_medico_rutviejo, fechavieja,
     nuevo.diagnostico = diagnostico
     nuevo.recomendaciones = recomendaciones
     nuevo.receta = receta
-    print (fk_paciente_rutviejo, fk_medico_rutviejo,
-                                      fechavieja,
-                                      nuevo.fk_paciente_rut, nuevo.fk_medico_rut, nuevo.fecha,
-                                      nuevo.sintomas, nuevo.diagnostico, nuevo.recomendaciones,
-                                      nuevo.receta)
+    print (fk_paciente_rutviejo, fk_medico_rutviejo, fechavieja,
+            nuevo.fk_paciente_rut, nuevo.fk_medico_rut, nuevo.fecha,
+            nuevo.sintomas, nuevo.diagnostico, nuevo.recomendaciones,
+            nuevo.receta)
     nuevo.save(fk_paciente_rutviejo, fk_medico_rutviejo, fechavieja,
                 fk_paciente_rut)
 
-def obtenerNCitas(fk_paciente_rut=None, fk_medico_rut=None):
+
+def obtenerNCitas(fk_medico_rut=None, fk_paciente_rut=None):
     pass
-    #nuevo = Cita(rut)
+    if fk_paciente_rut is not None:
+        nuevo = Cita()
+        nuevo.fk_paciente_rut = fk_paciente_rut
+        data = nuevo.nCitas(fk_paciente_rut)
+        print "Data: ", data
+        largo = len(data)
+        return largo
+    else:
+        nuevo = Cita()
+        nuevo.fk_medico_rut = fk_medico_rut
+        data = nuevo.nCitas(fk_medico_rut)
+        print "Data: ", data
+        largo = len(data)
+        return largo
+
 
 def eliminarCita(fk_paciente_rut, fk_medico_rut, fecha):
     nuevo = Cita()

@@ -100,6 +100,7 @@ class Principal(QtGui.QWidget):
                                               (u"N Horas Medicas"))
             r = 0
             for row in pacientes:
+                fk_rut_paciente = row['rut']
                 index = self.model.index(r, 0, QtCore.QModelIndex())
                 self.model.setData(index, row['Rut'])
                 index = self.model.index(r, 1, QtCore.QModelIndex())
@@ -108,7 +109,8 @@ class Principal(QtGui.QWidget):
                 self.model.setData(index, row['Apellidos'])
                 index = self.model.index(r, 3, QtCore.QModelIndex())
                 self.model.setData(index, row['Ficha_Medica'])
-
+                index = self.model.index(r, 4, QtCore.QModelIndex())
+                self.model.setData(index, Controller.obtenerNCitas(fk_rut_paciente))
                 r = r + 1
             self.table.setModel(self.model)
 

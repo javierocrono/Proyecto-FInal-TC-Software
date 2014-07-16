@@ -323,7 +323,7 @@ class Cita(object):
             if self.fk_paciente_rut is not None:
                 self.load()
             elif self.fk_medico_rut is not None:
-                self.load(fk_medico_rut=self.fk_medico_rut)
+                self.load(self.fk_medico_rut)
 
     def save(self, fk_paciente_rutviejo=None, fk_medico_rutviejo=None,
                 fechavieja=None, fk_paciente_rut=None):
@@ -389,37 +389,23 @@ class Cita(object):
             print "An error occurred:", e.args[0]
             return False
 
-    def load(self, fk_id_pelicula=None):
+    def load(self, fk_medico_rut=None, fk_paciente_rut=None):
         conn = connect()
-        query = "SELECT * FROM actor_en_pelicula"
-
-        if self.fk_id_actor is not None:
-            query += " WHERE fk_paciente_rut = ?"
-            condition = self.fk_id_actor
+        query = "SELECT * FROM cita"
+        if self.fk_medico_rut is not None:
+            query += " WHERE fk_medico_rut = "
+            query += self.fk_medico_rut
         else:
-            if fk_id_pelicula is None:
-                return
+            if fk_paciente_rut is not None:
+                query += " WHERE fk_paciente_rut = "
+                query += self.fk_paciente_rut
 
-            query += " WHERE fk_medico_rut = ?"
-            condition = fk_id_pelicula
-
-        result = conn.execute(
-            query, [condition])
+        result = conn.execute(query)
         print result
-        row = result.fetchone()
+        row = result.fetchall()
         conn.close()
+        return row
 
-        if row is not None:
-            self.fecha = row[2]
-            self.sintomas = row[2]
-            self.diagnostico = row[2]
-            self.recomendaciones = row[2]
-            self.receta = row[3]
-            self.fk_paciente_rut = row[5]
-            self.fk_medico_rut = row[6]
-        else:
-            self.nombre = None
-            print "No existe el registro"
 
     def delete(self):
         query = "DELETE FROM cita "
@@ -438,6 +424,22 @@ class Cita(object):
         except sqlite3.Error as e:
             print "An error occurred:", e.args[0]
             return False
+
+    def nCitas(self, fk_medico_rut=None, fk_paciente_rut=None):
+        conn = connect()
+        query = "SELECT * FROM cita"
+        if fk_medico_rut is not None:
+            query += " WHERE fk_medico_rut = "
+            query += str(self.fk_medico_rut)
+        else:
+            if fk_paciente_rut is not None:
+                query += " WHERE fk_paciente_rut = "
+                query += str(self.fk_paciente_rut)
+        result = conn.execute(query)
+        data = result.fetchall()
+        print data
+        conn.close()
+        return data
 
     @classmethod
     def all(cls):
