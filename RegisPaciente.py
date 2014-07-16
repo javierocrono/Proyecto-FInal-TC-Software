@@ -15,12 +15,19 @@ Inicia la aplicacion de forma clara
 
 class Principal(QtGui.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, paciente=None):
         super(Principal, self).__init__()
         self.ui = Ui_Registro_Paciente_Window()
         self.ui.setupUi(self)
         self.ui.btn_ingresar.clicked.connect(self.registraPaciente)
         self.ui.btn_cancelar.clicked.connect(self.close)
+        self.rut = ""
+        if paciente is not None:
+            self.rut = paciente[0]
+            self.ui.ledit_rut.setText(str(paciente[0]))
+            self.ui.ledit_nombres.setText(str(paciente[1]))
+            self.ui.ledit_apellidos.setText(str(paciente[2]))
+            self.ui.ledit_ficha_medica.setText(str(paciente[3]))
         self.centrar()
         self.show()
 
@@ -36,9 +43,21 @@ class Principal(QtGui.QMainWindow):
         nombres = self.ui.ledit_nombres.text()
         apellidos = self.ui.ledit_apellidos.text()
         ficha_medica = self.ui.ledit_ficha_medica.text()
-
-        Controller.crearPaciente(rut, nombres, apellidos, ficha_medica)
-        self.close()
+        if(rut == "" or nombres == "" or apellidos == "" or ficha_medica == ""):
+            mensaje = "Faltan Campos de Informacion"
+            errorQMessageBox = QtGui.QMessageBox()
+            errorQMessageBox.setWindowTitle("Error")
+            errorQMessageBox.setText(mensaje)
+            errorQMessageBox.exec_()
+        else:
+            if self.rut == "":
+                Controller.crearPaciente(rut, nombres, apellidos,
+                                     ficha_medica)
+                self.close()
+            else:
+                Controler.editarPaciente(rut, nombres, apellidos,
+                                     ficha_medica)
+                self.close()
 
     def centrar(self):
             """Centra la ventana actual."""

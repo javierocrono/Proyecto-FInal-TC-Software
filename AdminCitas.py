@@ -22,6 +22,8 @@ class Principal(QtGui.QWidget):
         self.ui.setupUi(self)
         self.ui.btn_registrar.clicked.connect(self.registrar)
         self.ui.btn_editar.clicked.connect(self.editar)
+        self.ui.btn_eliminar.clicked.connect(self.eliminar)
+        self.ui.btn_refrescar.clicked.connect(self.load)
         self.main_layout = QtGui.QVBoxLayout(self)
         self.renderizaTabla()
         self.load()
@@ -29,8 +31,33 @@ class Principal(QtGui.QWidget):
         self.show()
 
     def editar(self):
-        app = RegisCita.Principal()
-        app.setWindowTitle("Editar Cita")
+        index = self.ui.tblview_citas.currentIndex()  # obtiene la fila
+                                                        #seleccionada
+        if index.row() == -1:
+            mensaje = "Seleccione una Cita para Editar"
+            errorQMessageBox = QtGui.QMessageBox()
+            errorQMessageBox.setWindowTitle("Error")
+            errorQMessageBox.setText(mensaje)
+            errorQMessageBox.exec_()
+        else:
+            citas = list()
+            model = self.ui.tblview_citas.model()
+            citas.append(model.index(index.row(), 0,
+                         QtCore.QModelIndex()).data())
+            citas.append(model.index(index.row(), 1,
+                        QtCore.QModelIndex()).data())
+            citas.append(model.index(index.row(), 2,
+                        QtCore.QModelIndex()).data())
+            citas.append(model.index(index.row(), 3,
+                        QtCore.QModelIndex()).data())
+            citas.append(model.index(index.row(), 4,
+                        QtCore.QModelIndex()).data())
+            citas.append(model.index(index.row(), 5,
+                        QtCore.QModelIndex()).data())
+            citas.append(model.index(index.row(), 6,
+                        QtCore.QModelIndex()).data())
+        app = RegisCita.Principal(citas)
+        app.setWindowTitle("Editar citas")
         sys.exit(app.exec_())
 
     def registrar(self):
@@ -38,11 +65,28 @@ class Principal(QtGui.QWidget):
         sys.exit(app.exec_())
 
     def eliminar(self):
-        pass
+        index = self.ui.tblview_citas.currentIndex()  # obtiene la fila
+                                                        #seleccionada
+        if index.row() == -1:
+            mensaje = "Seleccione un Cita para borrar"
+            errorQMessageBox = QtGui.QMessageBox()
+            errorQMessageBox.setWindowTitle("Error")
+            errorQMessageBox.setText(mensaje)
+            errorQMessageBox.exec_()
+        else:
+            model = self.ui.tblview_citas.model()
+            fecha = model.index(index.row(), 0,
+                                QtCore.QModelIndex()).data()
+            fk_paciente_rut = model.index(index.row(), 5,
+                                QtCore.QModelIndex()).data()
+            fk_medico_rut = model.index(index.row(), 6,
+                                QtCore.QModelIndex()).data()
+            print (fk_paciente_rut, fk_medico_rut, fecha)
+            Controller.eliminarCita(fk_paciente_rut, fk_medico_rut, fecha)
 
     def renderizaTabla(self):
         self.table = self.ui.tblview_citas
-        self.table.setFixedWidth(400)
+        self.table.setFixedWidth(500)
         self.table.setFixedHeight(340)
         self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.table.setAlternatingRowColors(True)
@@ -53,13 +97,20 @@ class Principal(QtGui.QWidget):
             # metodo para cargar la grilla con las citas
             citas = Controller.citas()
             self.model = QtGui.QStandardItemModel(len(citas), 4)
-            self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem(u"Fecha"))
-            self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem(u"Sintomas"))
-            self.model.setHorizontalHeaderItem(2, QtGui.QStandardItem(u"Diagnostico"))
-            self.model.setHorizontalHeaderItem(3, QtGui.QStandardItem(u"Recomendaciones"))
-            self.model.setHorizontalHeaderItem(4, QtGui.QStandardItem(u"Receta"))
-            self.model.setHorizontalHeaderItem(5, QtGui.QStandardItem(u"Rut Paciente"))
-            self.model.setHorizontalHeaderItem(6, QtGui.QStandardItem(u"Rut Medico"))
+            self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem
+                                              (u"Fecha"))
+            self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem
+                                              (u"Sintomas"))
+            self.model.setHorizontalHeaderItem(2, QtGui.QStandardItem
+                                              (u"Diagnostico"))
+            self.model.setHorizontalHeaderItem(3, QtGui.QStandardItem
+                                              (u"Recomendaciones"))
+            self.model.setHorizontalHeaderItem(4, QtGui.QStandardItem
+                                              (u"Receta"))
+            self.model.setHorizontalHeaderItem(5, QtGui.QStandardItem
+                                              (u"Rut Paciente"))
+            self.model.setHorizontalHeaderItem(6, QtGui.QStandardItem
+                                              (u"Rut Medico"))
             r = 0
             for row in citas:
                 index = self.model.index(r, 0, QtCore.QModelIndex())
@@ -73,9 +124,9 @@ class Principal(QtGui.QWidget):
                 index = self.model.index(r, 4, QtCore.QModelIndex())
                 self.model.setData(index, row['Receta'])
                 index = self.model.index(r, 5, QtCore.QModelIndex())
-                self.model.setData(index, row['fk_rut_paciente'])
+                self.model.setData(index, row['fk_paciente_rut'])
                 index = self.model.index(r, 6, QtCore.QModelIndex())
-                self.model.setData(index, row['fk_rut_medico'])
+                self.model.setData(index, row['fk_medico_rut'])
 
                 r = r + 1
             self.table.setModel(self.model)

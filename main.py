@@ -26,6 +26,7 @@ class Principal(QtGui.QMainWindow, Ui_Inicio_Window):
         self.ui.btn_pacientes.clicked.connect(self.adminPacientes)
         self.ui.btn_citas.clicked.connect(self.adminCitas)
         self.centrar()
+        self.show()
 
     def adminMedicos(self):
         app = AdminMedicos.Principal()

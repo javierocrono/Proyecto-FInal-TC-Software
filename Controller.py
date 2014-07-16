@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-sys.path.append('Model')
 from Model import Paciente, Medico, Cita
 
 
@@ -23,6 +21,7 @@ def crearPaciente(rut, nombres, apellidos, ficha_medica):
     que toda la información es correcta
     Ej:
     """
+    print(rut, nombres, apellidos, ficha_medica)
     nuevo = Paciente()
     nuevo.rut = rut
     # Aquí podrían haber validaciones para el codigo
@@ -32,12 +31,19 @@ def crearPaciente(rut, nombres, apellidos, ficha_medica):
     nuevo.save()
 
 
+def eliminarPaciente(rut):
+    nuevo = Paciente()
+    nuevo.rut = rut
+    nuevo.delete()
+
+
 def crearMedico(rut, nombres, apellidos, especialidad):
     """
     Método que crea un Medico Lo correcto sería validar
     que toda la información es correcta
     Ej:
     """
+    print(rut, nombres, apellidos, especialidad)
     nuevo = Medico()
     nuevo.rut = rut
     # Aquí podrían haber validaciones para el codigo
@@ -45,6 +51,12 @@ def crearMedico(rut, nombres, apellidos, especialidad):
     nuevo.apellidos = apellidos
     nuevo.especialidad = especialidad
     nuevo.save()
+
+
+def eliminarMedico(rut):
+    nuevo = Medico()
+    nuevo.rut = rut
+    nuevo.delete()
 
 
 def crearCita(fk_paciente_rut, fk_medico_rut, fecha, sintomas, diagnostico,
@@ -61,6 +73,15 @@ def crearCita(fk_paciente_rut, fk_medico_rut, fecha, sintomas, diagnostico,
     nuevo.recomendaciones = recomendaciones
     nuevo.receta = receta
     nuevo.save()
+
+
+def eliminarCita(fk_paciente_rut, fk_medico_rut, fecha):
+    nuevo = Cita()
+    nuevo.fk_paciente_rut = fk_paciente_rut
+    nuevo.fk_medico_rut = fk_medico_rut
+    nuevo.fecha = fecha
+    print (nuevo.fk_paciente_rut, nuevo.fk_medico_rut, nuevo.fecha)
+    nuevo.delete()
 
 if __name__ == "__main__":
     pass

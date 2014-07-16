@@ -22,6 +22,8 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
         self.ui.setupUi(self)
         self.ui.btn_registrar.clicked.connect(self.registrar)
         self.ui.btn_editar.clicked.connect(self.editar)
+        self.ui.btn_eliminar.clicked.connect(self.eliminar)
+        self.ui.btn_refrescar.clicked.connect(self.load)
         self.main_layout = QtGui.QVBoxLayout(self)
         self.renderizaTabla()
         self.load()
@@ -29,8 +31,23 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
         self.show()
 
     def editar(self):
-        app = RegisMedico.Principal()
-        app.setWindowTitle("Editar")
+        index = self.ui.tblview_medicos.currentIndex()  # obtiene la fila
+                                                        #seleccionada
+        if index.row() == -1:
+            mensaje = "Seleccione un Medico para Editar"
+            errorQMessageBox = QtGui.QMessageBox()
+            errorQMessageBox.setWindowTitle("Error")
+            errorQMessageBox.setText(mensaje)
+            errorQMessageBox.exec_()
+        else:
+            medico = list()
+            model = self.ui.tblview_medicos.model()
+            medico.append(model.index(index.row(), 0, QtCore.QModelIndex()).data())
+            medico.append(model.index(index.row(), 1, QtCore.QModelIndex()).data())
+            medico.append(model.index(index.row(), 2, QtCore.QModelIndex()).data())
+            medico.append(model.index(index.row(), 3, QtCore.QModelIndex()).data())
+        app = RegisMedico.Principal(medico)
+        app.setWindowTitle("Editar Paciente")
         sys.exit(app.exec_())
 
     def registrar(self):
@@ -38,11 +55,22 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
         sys.exit(app.exec_())
 
     def eliminar(self):
-        pass
+        index = self.ui.tblview_medicos.currentIndex()  # obtiene la fila
+                                                        #seleccionada
+        if index.row() == -1:
+            mensaje = "Seleccione un Medico para borrar"
+            errorQMessageBox = QtGui.QMessageBox()
+            errorQMessageBox.setWindowTitle("Error")
+            errorQMessageBox.setText(mensaje)
+            errorQMessageBox.exec_()
+        else:
+            model = self.ui.tblview_medicos.model()
+            rut = model.index(index.row(), 0, QtCore.QModelIndex()).data()
+            Controller.eliminarMedico(rut)
 
     def renderizaTabla(self):
         self.table = self.ui.tblview_medicos
-        self.table.setFixedWidth(400)
+        self.table.setFixedWidth(450)
         self.table.setFixedHeight(340)
         self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.table.setAlternatingRowColors(True)
@@ -52,7 +80,7 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
     def load(self):
             # metodo para cargar la grilla con los medicos
             medicos = Controller.medicos()
-            self.model = QtGui.QStandardItemModel(len(medicos), 4)
+            self.model = QtGui.QStandardItemModel(len(medicos), 5)
             self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem(u"Rut"))
             self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem
                                                (u"Nombres"))
@@ -60,6 +88,8 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
                                                (u"Apellidos"))
             self.model.setHorizontalHeaderItem(3, QtGui.QStandardItem
                                                (u"Especialidad"))
+            self.model.setHorizontalHeaderItem(4, QtGui.QStandardItem
+                                               (u"N Horas Medicas"))
             r = 0
             for row in medicos:
                 index = self.model.index(r, 0, QtCore.QModelIndex())

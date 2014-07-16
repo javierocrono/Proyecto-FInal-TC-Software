@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'MedicosForm.ui'
 #
-# Created: Tue Jul 15 22:44:59 2014
+# Created: Wed Jul 16 10:29:38 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,13 +12,13 @@ from PySide import QtCore, QtGui
 class Ui_MedicosForm(object):
     def setupUi(self, MedicosForm):
         MedicosForm.setObjectName("MedicosForm")
-        MedicosForm.resize(531, 482)
+        MedicosForm.resize(666, 491)
         self.tblview_medicos = QtGui.QTableView(MedicosForm)
-        self.tblview_medicos.setGeometry(QtCore.QRect(20, 61, 400, 400))
+        self.tblview_medicos.setGeometry(QtCore.QRect(14, 71, 501, 400))
         self.tblview_medicos.setMaximumSize(QtCore.QSize(565, 440))
         self.tblview_medicos.setObjectName("tblview_medicos")
         self.widget_2 = QtGui.QWidget(MedicosForm)
-        self.widget_2.setGeometry(QtCore.QRect(20, 10, 400, 45))
+        self.widget_2.setGeometry(QtCore.QRect(14, 20, 400, 45))
         self.widget_2.setMinimumSize(QtCore.QSize(400, 0))
         self.widget_2.setObjectName("widget_2")
         self.horizontalLayout = QtGui.QHBoxLayout(self.widget_2)
@@ -31,8 +31,8 @@ class Ui_MedicosForm(object):
         self.btn_buscar.setObjectName("btn_buscar")
         self.horizontalLayout.addWidget(self.btn_buscar)
         self.widget = QtGui.QWidget(MedicosForm)
-        self.widget.setGeometry(QtCore.QRect(426, 61, 90, 400))
-        self.widget.setMinimumSize(QtCore.QSize(90, 400))
+        self.widget.setGeometry(QtCore.QRect(540, 71, 90, 301))
+        self.widget.setMinimumSize(QtCore.QSize(0, 0))
         self.widget.setObjectName("widget")
         self.gridLayout = QtGui.QGridLayout(self.widget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -46,6 +46,9 @@ class Ui_MedicosForm(object):
         self.btn_eliminar = QtGui.QPushButton(self.widget)
         self.btn_eliminar.setObjectName("btn_eliminar")
         self.gridLayout.addWidget(self.btn_eliminar, 2, 0, 1, 1)
+        self.btn_refrescar = QtGui.QPushButton(MedicosForm)
+        self.btn_refrescar.setGeometry(QtCore.QRect(550, 410, 72, 27))
+        self.btn_refrescar.setObjectName("btn_refrescar")
 
         self.retranslateUi(MedicosForm)
         QtCore.QMetaObject.connectSlotsByName(MedicosForm)
@@ -56,4 +59,5 @@ class Ui_MedicosForm(object):
         self.btn_registrar.setText(QtGui.QApplication.translate("MedicosForm", "Registrar", None, QtGui.QApplication.UnicodeUTF8))
         self.btn_editar.setText(QtGui.QApplication.translate("MedicosForm", "Editar", None, QtGui.QApplication.UnicodeUTF8))
         self.btn_eliminar.setText(QtGui.QApplication.translate("MedicosForm", "Eliminar", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_refrescar.setText(QtGui.QApplication.translate("MedicosForm", "Refrescar", None, QtGui.QApplication.UnicodeUTF8))
 
