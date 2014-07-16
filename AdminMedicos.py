@@ -100,6 +100,8 @@ class Principal(QtGui.QWidget, Ui_MedicosForm):
                 self.model.setData(index, row['Apellidos'])
                 index = self.model.index(r, 3, QtCore.QModelIndex())
                 self.model.setData(index, row['Especialidad'])
+                index = self.model.index(r, 4, QtCore.QModelIndex())
+                self.model.setData(index, Controller.obtenerNCitas(row['Rut']))
                 r = r + 1
             self.table.setModel(self.model)
 

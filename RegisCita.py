@@ -21,16 +21,20 @@ class Principal(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.ui.btn_ingresar.clicked.connect(self.registraCita)
         self.ui.btn_cancelar.clicked.connect(self.close)
-        self.fk_rut_paciente = ""
+        self.fk_paciente_rutviejo = ""
+        self.fk_medico_rutviejo = ""
+        self.fechavieja = ""
         if citas is not None:
-            self.fk_rut_paciente = citas[0]
-            self.ui.ledit_rutpaciente.setText(str(citas[0]))
-            self.ui.ledit_rutmedico.setText(str(citas[1]))
-            self.ui.ledit_fecha.setText(str(citas[2]))
-            self.ui.ledit_sintomas.setText(str(citas[3]))
-            self.ui.ledit_diagnostico.setText(str(citas[4]))
-            self.ui.ledit_recomendaciones.setText(str(citas[5]))
-            self.ui.ledit_receta.setText(str(citas[6]))
+            self.fk_paciente_rutviejo = citas[5]
+            self.fk_medico_rutviejo = citas[6]
+            self.fechavieja = citas[0]
+            self.ui.ledit_rutpaciente.setText(str(citas[5]))
+            self.ui.ledit_rutmedico.setText(str(citas[6]))
+            self.ui.ledit_fecha.setText(str(citas[0]))
+            self.ui.ledit_sintomas.setText(str(citas[1]))
+            self.ui.ledit_diagnostico.setText(str(citas[2]))
+            self.ui.ledit_recomendaciones.setText(str(citas[3]))
+            self.ui.ledit_receta.setText(str(citas[4]))
         self.centrar()
         self.show()
 
@@ -42,14 +46,14 @@ class Principal(QtGui.QMainWindow):
         Si existiese error en el ingreso de los datos mostrara un mensaje de
         error.
         """
-        rut_paciente = self.ui.ledit_rutpaciente.text()
-        rut_medico = self.ui.ledit_rutmedico.text()
+        fk_paciente_rut = self.ui.ledit_rutpaciente.text()
+        fk_medico_rut = self.ui.ledit_rutmedico.text()
         fecha = self.ui.ledit_fecha.text()
         sintomas = self.ui.ledit_sintomas.text()
         diagnostico = self.ui.ledit_diagnostico.text()
         recomendaciones = self.ui.ledit_recomendaciones.text()
         receta = self.ui.ledit_receta.text()
-        if(rut_paciente == "" or rut_medico == "" or fecha == ""
+        if(fk_paciente_rut == "" or fk_medico_rut == "" or fecha == ""
             or sintomas == ""):
 
             mensaje = "Faltan Campos de Informacion"
@@ -58,13 +62,24 @@ class Principal(QtGui.QMainWindow):
             errorQMessageBox.setText(mensaje)
             errorQMessageBox.exec_()
         else:
-            if self.fk_rut_paciente == "":
-                Controller.crearCita(rut_paciente, rut_medico, fecha, sintomas,
-                                     diagnostico, recomendaciones, receta)
+            if self.fechavieja == "":
+                Controller.crearCita(fk_paciente_rut, fk_medico_rut, fecha,
+                                     sintomas, diagnostico, recomendaciones,
+                                     receta)
                 self.close()
             else:
-                Controler.editarCita(rut_paciente, rut_medico, fecha, sintomas,
-                                     diagnostico, recomendaciones, receta)
+                print (self.fk_paciente_rutviejo,
+                                      self.fk_medico_rutviejo,
+                                      self.fechavieja,
+                                      fk_paciente_rut, fk_medico_rut, fecha,
+                                      sintomas, diagnostico, recomendaciones,
+                                      receta)
+                Controller.editarCita(self.fk_paciente_rutviejo,
+                                      self.fk_medico_rutviejo,
+                                      self.fechavieja,
+                                      fk_paciente_rut, fk_medico_rut, fecha,
+                                      sintomas, diagnostico, recomendaciones,
+                                      receta)
                 self.close()
 
     def centrar(self):

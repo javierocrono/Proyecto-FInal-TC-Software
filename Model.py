@@ -64,15 +64,19 @@ class Paciente(object):
             self.rut = None
             print "El registro no existe"
 
-    def save(self):
+    def save(self, rutviejo=None, rut=None):
         """
         Guarda el objeto en la base de datos.
         Utiliza un insert o update según Corresponda
         """
-        if self.rut is not None:
-            self.rut = self.__insert()
+        if rutviejo is None:
+            if self.rut is not None:
+                self.rut = self.__insert()
+            else:
+                self.__update()
         else:
-            self.__update()
+            self.rut = rut
+            self.__update(rutviejo)
 
     def __insert(self):
         query = "INSERT INTO paciente "
@@ -92,20 +96,22 @@ class Paciente(object):
             print "An error occurred:", e.args[0]
             return None
 
-    def __update(self):
+    def __update(self, rutviejo=None):
         query = "UPDATE paciente "
-        query += "SET nombres = ?, "
+        query += "SET rut = ?, "
+        query += "nombres = ?, "
         query += "apellidos = ?, "
-        query += "ficha_medica = ?, "
+        query += "ficha_medica = ? "
         query += "WHERE rut = ?"
         try:
             conn = connect()
             conn.execute(
                 query, [
+                    self.rut,
                     self.nombres,
                     self.apellidos,
                     self.ficha_medica,
-                    self.rut])
+                    rutviejo])
             conn.commit()
             conn.close()
             return True
@@ -198,15 +204,19 @@ class Medico(object):
             self.rut = None
             print "El registro no existe"
 
-    def save(self):
+    def save(self, rutviejo=None, rut=None):
         """
         Guarda el objeto en la base de datos.
         Utiliza un insert o update según Corresponda
         """
-        if self.rut is not None:
-            self.rut = self.__insert()
+        if rutviejo is None:
+            if self.rut is not None:
+                self.rut = self.__insert()
+            else:
+                self.__update()
         else:
-            self.__update()
+            self.rut = rut
+            self.__update(rutviejo)
 
     def __insert(self):
         query = "INSERT INTO medico "
@@ -226,26 +236,28 @@ class Medico(object):
             print "An error occurred:", e.args[0]
             return None
 
-    def __update(self):
-        query = "UPDATE medico "
-        query += "SET nombres = ?, "
-        query += "apellidos = ?, "
-        query += "especialidad = ?, "
-        query += "WHERE rut = ?"
-        try:
-            conn = connect()
-            conn.execute(
-                query, [
-                    self.nombres,
-                    self.apellidos,
-                    self.especialidad,
-                    self.rut])
-            conn.commit()
-            conn.close()
-            return True
-        except sqlite3.Error as e:
-            print "An error occurred:", e.args[0]
-            return False
+    def __update(self, rutviejo=None):
+        if rutviejo is not None:
+            query = "UPDATE medico "
+            query += "SET rut = ?, "
+            query += "nombres = ?, "
+            query += "apellidos = ?, "
+            query += "especialidad = ? "
+            query += "WHERE rut = ?"
+            try:
+                conn = connect()
+                conn.execute(
+                    query, [
+                        self.rut,
+                        self.nombres,
+                        self.apellidos,
+                        self.especialidad, rutviejo])
+                conn.commit()
+                conn.close()
+                return True
+            except sqlite3.Error as e:
+                print "An error occurred:", e.args[0]
+                return False
 
     def delete(self):
         query = "DELETE FROM medico "
@@ -313,7 +325,8 @@ class Cita(object):
             elif self.fk_medico_rut is not None:
                 self.load(fk_medico_rut=self.fk_medico_rut)
 
-    def save(self):
+    def save(self, fk_paciente_rutviejo=None, fk_medico_rutviejo=None,
+                fechavieja=None, fk_paciente_rut=None):
         """
         Guarda el objeto en la base de datos.
         Utiliza un insert o update según Corresponda
@@ -321,7 +334,9 @@ class Cita(object):
         if self.fk_paciente_rut is not None:
             self.fk_paciente_rut = self.insert()
         else:
-            self.__update()
+            self.fk_paciente_rut = fk_paciente_rut
+            self.__update(fk_paciente_rutviejo, fk_medico_rutviejo,
+                    fechavieja)
 
     def insert(self):
         query = "INSERT INTO cita "
@@ -345,12 +360,15 @@ class Cita(object):
             print "An error occurred:", e.args[0]
             return None
 
-    def __update(self):
+    def __update(self, fk_paciente_rutviejo, fk_medico_rutviejo,
+                    fechavieja):
+        print (fk_paciente_rutviejo, fk_medico_rutviejo,
+                    fechavieja, self.fk_paciente_rut, self.fk_medico_rut)
         query = "UPDATE cita SET"
-        query += "(fecha, sintomas, diagnostico, recomendaciones,"
-        query += " receta, fk_rut_paciente, fk_rut_medico) "
-        query += "VALUES (?, ?, ?, ?, ?, ?, ?)"
-        query += "WHERE rut = ?"
+        query += " fecha = ?, sintomas = ?, diagnostico = ?, "
+        query += "recomendaciones = ?,"
+        query += " receta = ?, fk_paciente_rut = ?, fk_medico_rut = ? "
+        query += "WHERE fk_paciente_rut = ? AND fk_medico_rut = ? AND fecha = ?"
         try:
             conn = connect()
             conn.execute(
@@ -360,8 +378,10 @@ class Cita(object):
                     self.diagnostico,
                     self.recomendaciones,
                     self.receta,
-                    self.fk_rut_paciente,
-                    self.fk_rut_medico])
+                    self.fk_paciente_rut,
+                    self.fk_medico_rut,
+                    fk_paciente_rutviejo, fk_medico_rutviejo,
+                    fechavieja])
             conn.commit()
             conn.close()
             return True

@@ -21,9 +21,9 @@ class Principal(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.ui.btn_ingresar.clicked.connect(self.registraPaciente)
         self.ui.btn_cancelar.clicked.connect(self.close)
-        self.rut = ""
+        self.rutviejo = ""
         if paciente is not None:
-            self.rut = paciente[0]
+            self.rutviejo = paciente[0]
             self.ui.ledit_rut.setText(str(paciente[0]))
             self.ui.ledit_nombres.setText(str(paciente[1]))
             self.ui.ledit_apellidos.setText(str(paciente[2]))
@@ -50,12 +50,13 @@ class Principal(QtGui.QMainWindow):
             errorQMessageBox.setText(mensaje)
             errorQMessageBox.exec_()
         else:
-            if self.rut == "":
+            if self.rutviejo == "":
                 Controller.crearPaciente(rut, nombres, apellidos,
                                      ficha_medica)
                 self.close()
             else:
-                Controler.editarPaciente(rut, nombres, apellidos,
+                Controller.editarPaciente(self.rutviejo, rut, nombres,
+                                     apellidos,
                                      ficha_medica)
                 self.close()
 
